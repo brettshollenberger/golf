@@ -50,39 +50,41 @@ describe ScoreCard do
 
   it "tells a player's deviation from par for an individual hole" do
     score_card.load_course(example_course_file)
-    expect(score_card.deviation(1, 'Woods')).to eql(-3)
-    expect(score_card.deviation(2, 'Woods')).to eql(0)
+    score1, ace = score_card.deviation(1, 'Woods')
+    score2, ace = score_card.deviation(2, 'Woods')
+    expect(score1).to eql(-2)
+    expect(score2).to eql(0)
   end
 
   it "scores par for a deviation of 0" do
     score_card.load_course(example_course_file)
-    expect(score_card.score(0)).to eql("par")
+    expect(score_card.score(0, false)).to eql("par")
   end
 
   it "scores bogey for a deviation of 1" do
     score_card.load_course(example_course_file)
-    expect(score_card.score(1)).to eql("bogey")
+    expect(score_card.score(1, false)).to eql("bogey")
   end
 
   it "scores birdie for a deviation of -1" do
     score_card.load_course(example_course_file)
-    expect(score_card.score(-1)).to eql("birdie")
+    expect(score_card.score(-1, false)).to eql("birdie")
   end
 
   it "scores eagle for a deviation of -2" do
     score_card.load_course(example_course_file)
-    expect(score_card.score(-2)).to eql("eagle")
+    expect(score_card.score(-2, false)).to eql("eagle")
   end
 
   it "scores ace for a hole in one" do
     score_card.load_course(example_course_file)
-    deviation = score_card.deviation(1, 'Woods')
-    expect(score_card.score(deviation)).to eql("ace")
+    deviation, ace = score_card.deviation(1, 'Woods')
+    expect(score_card.score(deviation, ace)).to eql("ace")
   end
 
   it "calculates very large bogeys" do
     score_card.load_course(example_course_file)
-    expect(score_card.score(15)).to eql("14x bogey")
+    expect(score_card.score(15, false)).to eql("14x bogey")
   end
 
   it "calculates a player's total score" do

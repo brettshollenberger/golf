@@ -69,17 +69,22 @@ class ScoreCard < Hash
   def deviation(hole, player)
     index = hole - 1
     if self[player][index] == 1
-      score = -3
+      score = self[player][index] - self.course[index]
+      ace = true
+      return score, ace
     elsif
-      score = self.course[index] - self[player][index]
-      return score
+      score = self[player][index] - self.course[index]
+      ace = false
+      return score, ace
     end
   end
 
-  def score(deviation)
+  def score(deviation, ace)
     if deviation > 1
       times = deviation - 1
       return "#{times}x bogey"
+    elsif ace == true
+      return @score_term[-3]
     else
       return @score_term[deviation]
     end
@@ -88,7 +93,7 @@ class ScoreCard < Hash
   def total_score(player)
     total_score = 0
     (1..18).each do |hole|
-      hole_score = deviation(hole, player)
+      hole_score, ace = deviation(hole, player)
       total_score += hole_score
     end
     return total_score
