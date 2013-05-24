@@ -26,70 +26,77 @@ describe ScoreCard do
   let(:empty_layout) { HoleLayout.new() }
   let(:example_course_file) { 'example_pars.csv' }
 
-  it "loads a CSV of player scores" do
-    empty_card.load_file(example_scores_file)
-    expect(empty_card).to be_kind_of(Hash)
-    expect(empty_card['Woods']).to be_kind_of(Array)
-    expect(empty_card['Woods']).to eql([1, 4, 5, 3, 4, 5, 4, 4, 5, 3, 4, 5, 3, 3, 4, 5, 3, 3])
-  end
-
-  it "loads a Hole Layout" do
+  before(:each) do
     score_card.load_course(example_course_file)
-    expect(score_card.course).to eql([3, 4, 5, 3, 4, 5, 4, 4, 5, 3, 4, 5, 3, 3, 4, 5, 3, 3])
   end
 
-  it "can tell par of an individual hole" do
-    score_card.load_course(example_course_file)
-    expect(score_card.course[0]). to eql(3)
+  context "Loading player scores and hole layout" do
+    it "loads a CSV of player scores" do
+      empty_card.load_file(example_scores_file)
+      expect(empty_card).to be_kind_of(Hash)
+      expect(empty_card['Woods']).to be_kind_of(Array)
+      expect(empty_card['Woods']).to eql([1, 4, 4, 3, 2, 6, 6, 7, 9, 1, 1, 1, 3, 3, 4, 5, 3, 3])
+    end
+
+    it "loads a Hole Layout" do
+      expect(score_card.course).to eql([3, 4, 5, 3, 4, 5, 4, 4, 5, 3, 4, 5, 3, 3, 4, 5, 3, 3])
+    end
   end
 
-  it "loads all the scores of an individual player" do
-    expect(score_card['Woods'][0]).to eql(1)
-    expect(score_card['Woods'][1]).to eql(4)
-  end
+  context "Calculating scores for each hole, player, and round" do
+    it "can tell par of an individual hole" do
+      expect(score_card.course[0]).to eql(3)
+    end
 
-  it "tells a player's deviation from par for an individual hole" do
-    score_card.load_course(example_course_file)
-    score1, ace = score_card.deviation(1, 'Woods')
-    score2, ace = score_card.deviation(2, 'Woods')
-    expect(score1).to eql(-2)
-    expect(score2).to eql(0)
-  end
+    it "loads all the scores of an individual player" do
+      expect(score_card['Woods'][0]).to eql(1)
+      expect(score_card['Woods'][1]).to eql(4)
+    end
 
-  it "scores par for a deviation of 0" do
-    score_card.load_course(example_course_file)
-    expect(score_card.score(0, false)).to eql("par")
-  end
+    it "tells a player's deviation from par for an individual hole" do
+      expect(score_card.hole_score(1, 'Woods')).to eql(-2)
+      expect(score_card.hole_score(2, 'Woods')).to eql(0)
+    end
 
-  it "scores bogey for a deviation of 1" do
-    score_card.load_course(example_course_file)
-    expect(score_card.score(1, false)).to eql("bogey")
-  end
+    it "calculates a player's total score" do
+      expect(score_card.total_score('Woods')).to eql(-4)
+    end
 
-  it "scores birdie for a deviation of -1" do
-    score_card.load_course(example_course_file)
-    expect(score_card.score(-1, false)).to eql("birdie")
-  end
+    it "returns the total scores for all players" do
+      expect(score_card.all_scores).to include("Woods" => -4)
+    end
 
-  it "scores eagle for a deviation of -2" do
-    score_card.load_course(example_course_file)
-    expect(score_card.score(-2, false)).to eql("eagle")
-  end
+    it "gives a player an ace for a hole-in-one" do
+      expect(score_card.return_score_term(1, "Woods")).to eql("ace")
+    end
 
-  it "scores ace for a hole in one" do
-    score_card.load_course(example_course_file)
-    deviation, ace = score_card.deviation(1, 'Woods')
-    expect(score_card.score(deviation, ace)).to eql("ace")
-  end
+    it "gives a player a par if they shoot par for the course" do
+      expect(score_card.return_score_term(2, "Woods")).to eql("par")
+    end
 
-  it "calculates very large bogeys" do
-    score_card.load_course(example_course_file)
-    expect(score_card.score(15, false)).to eql("14x bogey")
-  end
+    it "gives a player a birdie if they shoot one under par" do
+      expect(score_card.return_score_term(3, "Woods")).to eql("birdie")
+    end
 
-  it "calculates a player's total score" do
-    score_card.load_course(example_course_file)
-    expect(score_card.total_score('Woods')).to eql(-2)
+    it "gives a player an eagle if they shoot two under par" do
+      expect(score_card.return_score_term(5, "Woods")).to eql("eagle")
+    end
+
+    it "gives a player a bogey if they shoot one over par" do
+      expect(score_card.return_score_term(6, "Woods")).to eql("bogey")
+    end
+
+    it "gives a player a double boge if they shoot two over par" do
+      expect(score_card.return_score_term(7, "Woods")).to eql("double boge")
+    end
+
+    it "gives a player a triple boge if they shoot three over par" do
+      expect(score_card.return_score_term(8, "Woods")).to eql("triple boge")
+    end
+
+    it "gives a player a superbogey if a player shoots any higher than three over par" do
+      expect(score_card.return_score_term(9, "Woods")).to eql("superbogey")
+    end
   end
 
 end

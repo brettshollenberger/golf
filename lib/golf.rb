@@ -32,14 +32,14 @@ class HoleLayout < Array
 end
 
 #=====================================================================================#
+#=====================================================================================#
 
 class ScoreCard < Hash
   attr_accessor :course, :score_term
 
   def initialize
-    @score_term = ["par", "bogey", "ace", "eagle", "birdie"]
+    @score_term = ["par", "bogey", "double boge", "triple boge", "eagle", "birdie"]
   end
-
 
   def load_file(file)
     array = parse_file(file)
@@ -66,37 +66,37 @@ class ScoreCard < Hash
     @course.load_file(file)
   end
 
-  def deviation(hole, player)
+  def hole_score(hole, player)
     index = hole - 1
-    if self[player][index] == 1
-      score = self[player][index] - self.course[index]
-      ace = true
-      return score, ace
-    elsif
-      score = self[player][index] - self.course[index]
-      ace = false
-      return score, ace
-    end
-  end
-
-  def score(deviation, ace)
-    if deviation > 1
-      times = deviation - 1
-      return "#{times}x bogey"
-    elsif ace == true
-      return @score_term[-3]
-    else
-      return @score_term[deviation]
-    end
+    hole_score = self[player][index] - self.course[index]
+    return hole_score
   end
 
   def total_score(player)
     total_score = 0
-    (1..18).each do |hole|
-      hole_score, ace = deviation(hole, player)
-      total_score += hole_score
-    end
+    (1..18).each { |hole| total_score += hole_score(hole, player) }
     return total_score
   end
 
+  def return_score_term(hole, player)
+    hole_sc = hole_score(hole, player)
+    return 'ace' if hole_in_one?(self[player][hole - 1])
+    return @score_term[hole_sc] unless hole_sc > 3
+    return "superbogey"
+  end
+
+  def all_scores
+    total_scores = {}
+    self.each do |key, value|
+      total_scores[key] = total_score(key)
+    end
+    return total_scores
+  end
+
+  def hole_in_one?(hole)
+    return true if hole == 1
+  end
 end
+
+#=====================================================================================#
+#=====================================================================================#
