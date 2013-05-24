@@ -1,22 +1,23 @@
 require 'csv'
 
-#=====================================================================================#
-#================================= Global Methods ====================================#
-#=====================================================================================#
+#==================================================================================================#
+#======================================= Global Methods ===========================================#
+#==================================================================================================#
 
 def parse_file(file)
   temp = CSV.parse(File.read(File.join(File.dirname(__FILE__), file)))
 end
 
+
 def sum
   sum = 0
-  self.each { |num| sum += num }
+  self.each { |num| sum += num.to_i }
   return sum
 end
 
-#=====================================================================================#
-#================================ Class Definitions ==================================#
-#=====================================================================================#
+#==================================================================================================#
+#====================================== Class Definitions =========================================#
+#==================================================================================================#
 
 class HoleLayout < Array
   attr_accessor :par
@@ -31,15 +32,19 @@ class HoleLayout < Array
   end
 end
 
-#=====================================================================================#
-#=====================================================================================#
+#==================================================================================================#
+#==================================================================================================#
 
 class ScoreCard < Hash
-  attr_accessor :course, :score_term
+  attr_accessor :course, :score_term, :player_output, :final_string
 
   def initialize
-    @score_term = ["par", "bogey", "double boge", "triple boge", "eagle", "birdie"]
+    @score_term = ["Par", "Bogey", "Double Boge", "Triple Boge", "Eagle", "Birdie"]
+    @player_output = {}
+    @final_string = ""
   end
+
+#======================================== Set File Data ===========================================#
 
   def load_file(file)
     array = parse_file(file)
@@ -66,6 +71,8 @@ class ScoreCard < Hash
     @course.load_file(file)
   end
 
+#======================================== Calculate Scores ========================================#
+
   def hole_score(hole, player)
     index = hole - 1
     hole_score = self[player][index] - self.course[index]
@@ -80,9 +87,9 @@ class ScoreCard < Hash
 
   def return_score_term(hole, player)
     hole_sc = hole_score(hole, player)
-    return 'ace' if hole_in_one?(self[player][hole - 1])
+    return 'Ace' if hole_in_one?(self[player][hole - 1])
     return @score_term[hole_sc] unless hole_sc > 3
-    return "superbogey"
+    return "Superbogey"
   end
 
   def all_scores
@@ -96,7 +103,41 @@ class ScoreCard < Hash
   def hole_in_one?(hole)
     return true if hole == 1
   end
+
+#========================================= Output Scores ==========================================#
+
+  def output_hole_score(hole, player)
+    score_t = return_score_term(hole, player)
+    return "Hole #{hole}: #{self[player][hole-1]} - #{score_t}"
+  end
+
+  def output_scores_per_player
+    self.each do |player, scores_array|
+      @player_output[player] = []
+      (1..18).each do |hole|
+        @player_output[player].push(output_hole_score(hole, player))
+      end
+    end
+  end
+
+  def final_output
+    output_scores_per_player
+    @player_output.each do |player, scores_array|
+      @final_string << "==#{player}\n"
+      scores_array.each do |score|
+        @final_string << "#{score}\n"
+      end
+      @final_string << "\nTotal Score: #{total_score(player)}\n\n"
+    end
+  end
+
+#========================================= Write to CSV ===========================================#
+
+  def write_to_csv
+    File.open('final.txt', 'w') { |file| file << final_string }
+  end
+
 end
 
-#=====================================================================================#
-#=====================================================================================#
+#==================================================================================================#
+#==================================================================================================#

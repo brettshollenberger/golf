@@ -67,35 +67,62 @@ describe ScoreCard do
     end
 
     it "gives a player an ace for a hole-in-one" do
-      expect(score_card.return_score_term(1, "Woods")).to eql("ace")
+      expect(score_card.return_score_term(1, "Woods")).to eql("Ace")
     end
 
     it "gives a player a par if they shoot par for the course" do
-      expect(score_card.return_score_term(2, "Woods")).to eql("par")
+      expect(score_card.return_score_term(2, "Woods")).to eql("Par")
     end
 
     it "gives a player a birdie if they shoot one under par" do
-      expect(score_card.return_score_term(3, "Woods")).to eql("birdie")
+      expect(score_card.return_score_term(3, "Woods")).to eql("Birdie")
     end
 
     it "gives a player an eagle if they shoot two under par" do
-      expect(score_card.return_score_term(5, "Woods")).to eql("eagle")
+      expect(score_card.return_score_term(5, "Woods")).to eql("Eagle")
     end
 
     it "gives a player a bogey if they shoot one over par" do
-      expect(score_card.return_score_term(6, "Woods")).to eql("bogey")
+      expect(score_card.return_score_term(6, "Woods")).to eql("Bogey")
     end
 
     it "gives a player a double boge if they shoot two over par" do
-      expect(score_card.return_score_term(7, "Woods")).to eql("double boge")
+      expect(score_card.return_score_term(7, "Woods")).to eql("Double Boge")
     end
 
     it "gives a player a triple boge if they shoot three over par" do
-      expect(score_card.return_score_term(8, "Woods")).to eql("triple boge")
+      expect(score_card.return_score_term(8, "Woods")).to eql("Triple Boge")
     end
 
     it "gives a player a superbogey if a player shoots any higher than three over par" do
-      expect(score_card.return_score_term(9, "Woods")).to eql("superbogey")
+      expect(score_card.return_score_term(9, "Woods")).to eql("Superbogey")
+    end
+  end
+
+  context "Outputting scores" do
+    it "outputs single hole data for a player" do
+      expect(score_card.output_hole_score(1, "Woods")).to eql("Hole 1: 1 - Ace")
+    end
+
+    it "outputs all scores for a player" do
+      score_card.output_scores_per_player
+      expect(score_card.player_output).to include("Woods" => ["Hole 1: 1 - Ace",
+        "Hole 2: 4 - Par", "Hole 3: 4 - Birdie", "Hole 4: 3 - Par", "Hole 5: 2 - Eagle",
+        "Hole 6: 6 - Bogey", "Hole 7: 6 - Double Boge", "Hole 8: 7 - Triple Boge", "Hole 9: 9 - Superbogey",
+        "Hole 10: 1 - Ace", "Hole 11: 1 - Ace", "Hole 12: 1 - Ace", "Hole 13: 3 - Par", "Hole 14: 3 - Par",
+        "Hole 15: 4 - Par", "Hole 16: 5 - Par", "Hole 17: 3 - Par", "Hole 18: 3 - Par"])
+    end
+
+    it "delivers the final output for a player" do
+      score_card.final_output
+      expect(score_card.final_string).to include("Total Score: -4")
+    end
+
+    it "writes all scores to CSV" do
+      score_card.final_output
+      score_card.write_to_csv
+      f = File.read(File.open('final.txt'))
+      expect(f).to include("Total Score: -4")
     end
   end
 

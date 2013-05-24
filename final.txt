@@ -1,0 +1,66 @@
+==Woods
+Hole 1: 1 - Ace
+Hole 2: 4 - Par
+Hole 3: 4 - Birdie
+Hole 4: 3 - Par
+Hole 5: 2 - Eagle
+Hole 6: 6 - Bogey
+Hole 7: 6 - Double Boge
+Hole 8: 7 - Triple Boge
+Hole 9: 9 - Superbogey
+Hole 10: 1 - Ace
+Hole 11: 1 - Ace
+Hole 12: 1 - Ace
+Hole 13: 3 - Par
+Hole 14: 3 - Par
+Hole 15: 4 - Par
+Hole 16: 5 - Par
+Hole 17: 3 - Par
+Hole 18: 3 - Par
+
+Total Score: -4
+
+==Baker
+Hole 1: 2 - Birdie
+Hole 2: 8 - Superbogey
+Hole 3: 5 - Par
+Hole 4: 1 - Ace
+Hole 5: 3 - Birdie
+Hole 6: 4 - Birdie
+Hole 7: 3 - Birdie
+Hole 8: 2 - Eagle
+Hole 9: 3 - Eagle
+Hole 10: 4 - Bogey
+Hole 11: 3 - Birdie
+Hole 12: 5 - Par
+Hole 13: 3 - Par
+Hole 14: 3 - Par
+Hole 15: 4 - Par
+Hole 16: 5 - Par
+Hole 17: 3 - Par
+Hole 18: 3 - Par
+
+Total Score: -6
+
+==James
+Hole 1: 1 - Ace
+Hole 2: 1 - Ace
+Hole 3: 1 - Ace
+Hole 4: 1 - Ace
+Hole 5: 1 - Ace
+Hole 6: 1 - Ace
+Hole 7: 1 - Ace
+Hole 8: 1 - Ace
+Hole 9: 1 - Ace
+Hole 10: 1 - Ace
+Hole 11: 1 - Ace
+Hole 12: 1 - Ace
+Hole 13: 3 - Par
+Hole 14: 3 - Par
+Hole 15: 4 - Par
+Hole 16: 5 - Par
+Hole 17: 3 - Par
+Hole 18: 3 - Par
+
+Total Score: -37
+
