@@ -118,6 +118,11 @@ describe ScoreCard do
       expect(score_card.final_string).to include("Total Score: 66")
     end
 
+    it "calculates the leaderboard" do
+      score_card.final_output
+      expect(score_card.final_string).to include("33, -37: Ball")
+    end
+
     it "writes all scores to CSV" do
       score_card.final_output
       score_card.write_to_csv

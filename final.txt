@@ -1,3 +1,8 @@
+==Leaderboard
+33, -37: Ball
+64, -6: Archer
+66, -4: Woods
+
 ==Woods
 Hole 1: 1 - Ace
 Hole 2: 4 - Par
@@ -21,7 +26,7 @@ Hole 18: 3 - Par
 Total Score: 66
 -4
 
-==Ball
+==Archer
 Hole 1: 2 - Birdie
 Hole 2: 8 - Superbogey
 Hole 3: 5 - Par
@@ -44,7 +49,7 @@ Hole 18: 3 - Par
 Total Score: 64
 -6
 
-==Barber
+==Ball
 Hole 1: 1 - Ace
 Hole 2: 1 - Ace
 Hole 3: 1 - Ace

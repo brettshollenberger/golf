@@ -122,11 +122,30 @@ class ScoreCard < Hash
 
   def final_output
     output_scores_per_player
+    add_leaderboard_to_string
     @player_output.each do |player, scores_array|
       add_player_name_to_string(player)
       add_scores_to_string(scores_array)
       add_totals_to_string(player)
     end
+  end
+
+  def add_leaderboard_to_string
+    leaderboard = calculate_leaderboard
+    @final_string << "==Leaderboard\n"
+    leaderboard.each do |player, score|
+      @final_string << "#{score[0]}, #{score[1]}: #{player}\n"
+    end
+    @final_string << "\n"
+  end
+
+  def calculate_leaderboard
+    leaderboard = {}
+    self.each do |player, scores|
+      total = total_score(player) + @course.par
+      leaderboard[player] = [total, total_score(player)]
+    end
+    return leaderboard.sort_by { |player, score| score }
   end
 
   def add_player_name_to_string(player)
@@ -150,7 +169,6 @@ class ScoreCard < Hash
   def write_to_csv
     File.open('final.txt', 'w') { |file| file << final_string }
   end
-
 end
 
 #==================================================================================================#
