@@ -8,7 +8,6 @@ def parse_file(file)
   temp = CSV.parse(File.read(File.join(File.dirname(__FILE__), file)))
 end
 
-
 def sum
   sum = 0
   self.each { |num| sum += num.to_i }
