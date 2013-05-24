@@ -18,9 +18,10 @@ Hole 16: 5 - Par
 Hole 17: 3 - Par
 Hole 18: 3 - Par
 
-Total Score: -4
+Total Score: 66
+-4
 
-==Baker
+==Ball
 Hole 1: 2 - Birdie
 Hole 2: 8 - Superbogey
 Hole 3: 5 - Par
@@ -40,9 +41,10 @@ Hole 16: 5 - Par
 Hole 17: 3 - Par
 Hole 18: 3 - Par
 
-Total Score: -6
+Total Score: 64
+-6
 
-==James
+==Barber
 Hole 1: 1 - Ace
 Hole 2: 1 - Ace
 Hole 3: 1 - Ace
@@ -62,5 +64,6 @@ Hole 16: 5 - Par
 Hole 17: 3 - Par
 Hole 18: 3 - Par
 
-Total Score: -37
+Total Score: 33
+-37
 

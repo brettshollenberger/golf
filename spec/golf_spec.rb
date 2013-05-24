@@ -115,14 +115,14 @@ describe ScoreCard do
 
     it "delivers the final output for a player" do
       score_card.final_output
-      expect(score_card.final_string).to include("Total Score: -4")
+      expect(score_card.final_string).to include("Total Score: 66")
     end
 
     it "writes all scores to CSV" do
       score_card.final_output
       score_card.write_to_csv
       f = File.read(File.open('final.txt'))
-      expect(f).to include("Total Score: -4")
+      expect(f).to include("Total Score: 66")
     end
   end
 

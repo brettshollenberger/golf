@@ -123,12 +123,26 @@ class ScoreCard < Hash
   def final_output
     output_scores_per_player
     @player_output.each do |player, scores_array|
-      @final_string << "==#{player}\n"
-      scores_array.each do |score|
-        @final_string << "#{score}\n"
-      end
-      @final_string << "\nTotal Score: #{total_score(player)}\n\n"
+      add_player_name_to_string(player)
+      add_scores_to_string(scores_array)
+      add_totals_to_string(player)
     end
+  end
+
+  def add_player_name_to_string(player)
+    @final_string << "==#{player}\n"
+  end
+
+  def add_scores_to_string(scores_array)
+    scores_array.each do |score|
+      @final_string << "#{score}\n"
+    end
+  end
+
+  def add_totals_to_string(player)
+    total = total_score(player) + @course.par
+    @final_string << "\nTotal Score: #{total}\n"
+    @final_string << "#{total_score(player)}\n\n"
   end
 
 #========================================= Write to CSV ===========================================#
